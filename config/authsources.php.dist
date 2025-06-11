@@ -1,0 +1,25 @@
+<?php
+
+/*
+ * authsources.php configuration example
+ *
+ */
+
+$config = [
+    'profileauth' => [
+        'profileauth:UserClick',
+        'users' => [
+            [
+                'uid' => ['student'],
+                'displayName' => ['Student'],
+                'eduPersonAffiliation' => ['student', 'member'],
+            ],
+            [
+                'uid' => ['employee'],
+                'displayName' => ['Employee'],
+                'eduPersonAffiliation' => ['employee', 'member'],
+            ],
+        ],
+    ],
+
+]

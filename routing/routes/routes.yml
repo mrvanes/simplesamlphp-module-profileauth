@@ -1,0 +1,8 @@
+---
+
+profileauth-login:
+  path: /login
+  defaults: {
+    _controller: 'SimpleSAML\Module\profileauth\Controller\Login::login'
+  }
+  methods: [GET, POST]
