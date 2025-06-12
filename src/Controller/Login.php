@@ -54,9 +54,9 @@ class Login
     }
 
     /**
-     * This page shows a username/password login form, and passes information from it
-     * to the \SimpleSAML\Module\profileauth\Auth\UserClick class, which is a generic class for
-     * username/password authentication.
+     * This page shows a list of users, and passes information from it
+     * to the \SimpleSAML\Module\profileauth\Auth\UserClick class, which is a class for
+     * user authentication.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
@@ -113,7 +113,7 @@ class Login
             $sameSiteNone = $httpUtils->canSetSamesiteNone() ? Cookie::SAMESITE_NONE : null;
 
             try {
-                UserClick::handleLogin($authStateId, $id);
+                UserClick::handleLogin($authStateId, (int)$id);
             } catch (Error\Error $e) {
                 // Login failed. Extract error code and parameters, to display the error
                 $errorCode = $e->getErrorCode();

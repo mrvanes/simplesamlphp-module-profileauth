@@ -104,6 +104,13 @@ class UserClick extends Auth\Source
         $id = Auth\State::saveState($state, self::STAGEID);
 
         /*
+         * If there is only one user configured, skip the persona chooser
+         */
+        if (count($this->users) == 1) {
+            $this->handleLogin($id, 0);
+        }
+
+        /*
          * Redirect to the login form. We include the identifier of the saved
          * state array as a parameter to the login form.
          */
@@ -126,11 +133,11 @@ class UserClick extends Auth\Source
      *
      * Note that both the username and the password are UTF-8 encoded.
      *
-     * @param string $uid  The username the user wrote.
+     * @param int $id  The username the user wrote.
      * @param string $password  The password the user wrote.
      * @return array  Associative array with the users attributes.
      */
-    protected function login(string $id): array
+    protected function login(int $id): array
     {
         if (!array_key_exists($id, $this->users)) {
             throw new Error\Error(Error\ErrorCodes::WRONGUSERPASS);
@@ -149,7 +156,7 @@ class UserClick extends Auth\Source
      * @param string $authStateId  The identifier of the authentication state.
      * @param string $id  The username the user wrote.
      */
-    public static function handleLogin(string $authStateId, string $id): void
+    public static function handleLogin(string $authStateId, int $id): void
     {
         // Here we retrieve the state array we saved in the authenticate-function.
         $state = Auth\State::loadState($authStateId, self::STAGEID);
