@@ -11,6 +11,7 @@ use SimpleSAML\XHTML\Template;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use SimpleSAML\Logger;
 
 use function array_key_exists;
 use function substr;
@@ -91,12 +92,6 @@ class Login
      */
     private function handleLogin(Request $request, UserClick $source, array $state): Response
     {
-        $authId = 'profileauth'; // Hmmm... should this be hard-coded?
-        $info = ['AuthId' => $authId];
-        $config = Configuration::getConfig('authsources.php');
-        $authConfig = $config->getOptionalArray($authId, null);
-        $UserClick = new UserClick($info, $authConfig);
-
         $authStateId = $request->query->get('AuthState');
         $this->authState::validateStateId($authStateId);
 
@@ -137,7 +132,7 @@ class Login
 
         $t = new Template($this->config, 'profileauth:login.twig');
 
-        $t->data['users'] = $UserClick->users;
+        $t->data['users'] = $source->users;
         $t->data['formURL'] = Module::getModuleURL('profileauth/login', ['AuthState' => $authStateId]);
 
         $t->data['errorcode'] = $errorCode;
